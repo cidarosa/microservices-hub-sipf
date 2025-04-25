@@ -1,6 +1,7 @@
 package com.github.cidarosa.ms_pedido.dto;
 
 import com.github.cidarosa.ms_pedido.entities.ItemDoPedido;
+import com.github.cidarosa.ms_pedido.entities.Pedido;
 import com.github.cidarosa.ms_pedido.entities.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,5 +37,18 @@ public class PedidoDTO {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private List<@Valid ItemDoPedido> itens = new ArrayList<>();
+    private List<@Valid ItemDoPedidoDTO> itens = new ArrayList<>();
+
+    public PedidoDTO(Pedido entity) {
+        id = entity.getId();
+        nome = entity.getNome();
+        cpf = entity.getCpf();
+        data = entity.getData();
+        status = entity.getStatus();
+
+        for (ItemDoPedido item : entity.getItens()) {
+            ItemDoPedidoDTO itemDTO = new ItemDoPedidoDTO(item);
+            itens.add(itemDTO);
+        }
+    }
 }
