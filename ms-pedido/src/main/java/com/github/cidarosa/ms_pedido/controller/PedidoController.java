@@ -2,6 +2,7 @@ package com.github.cidarosa.ms_pedido.controller;
 
 import com.github.cidarosa.ms_pedido.dto.PedidoDTO;
 import com.github.cidarosa.ms_pedido.service.PedidoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDTO> createPedido(@RequestBody PedidoDTO dto){
+    public ResponseEntity<PedidoDTO> createPedido(@RequestBody @Valid PedidoDTO dto){
 
         dto = service.savePedido(dto);
 
