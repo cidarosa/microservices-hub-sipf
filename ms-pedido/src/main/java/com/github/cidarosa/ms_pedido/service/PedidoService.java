@@ -71,8 +71,16 @@ public class PedidoService {
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado. Id: " + id);
         }
+    }
 
+    @Transactional
+    public void deletePedido(Long id){
 
+        if(!repository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado. Id: " + id);
+        }
+
+        repository.deleteById(id);
     }
 
     private void copyDtoToEntity(PedidoDTO dto, Pedido entity) {
