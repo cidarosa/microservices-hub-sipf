@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +31,15 @@ public class PedidoDTO {
 
     // @CPF(message = "CPF Inválido")
     @NotEmpty(message = "CPF requerido")
-    @Size(min = 11, max = 11, message = "CPF deve ter 11 caracteres - sem máscara")
+    @Size(min = 14, max = 14, message = "CPF deve ter 14 caracteres - máscara")
     private String cpf;
 
     private LocalDate data;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusDTO status;
+
+    private BigDecimal valorTotal;
 
     @NotEmpty(message = "Deve ter pelo menos um item do pedido")
     private List<@Valid ItemDoPedidoDTO> itens = new ArrayList<>();
@@ -46,7 +49,8 @@ public class PedidoDTO {
         nome = entity.getNome();
         cpf = entity.getCpf();
         data = entity.getData();
-        status = entity.getStatus();
+        status = new StatusDTO( entity.getStatus());
+        valorTotal = entity.getValorTotal();
 
         for (ItemDoPedido item : entity.getItens()) {
             ItemDoPedidoDTO itemDTO = new ItemDoPedidoDTO(item);

@@ -50,6 +50,7 @@ public class PedidoService {
         entity.setData(LocalDate.now());
         entity.setStatus(Status.REALIZADO);
         copyDtoToEntity(dto, entity);
+        entity.calcularTotalDoPedido();
         entity = repository.save(entity);
         itemDoPedidoRepository.saveAll(entity.getItens());
         return new PedidoDTO(entity);
@@ -64,6 +65,7 @@ public class PedidoService {
             entity.setStatus(Status.REALIZADO);
             itemDoPedidoRepository.deleteByPedidoId(id);
             copyDtoToEntity(dto, entity);
+            entity.calcularTotalDoPedido();
             entity = repository.save(entity);
             itemDoPedidoRepository.saveAll(entity.getItens());
             return new PedidoDTO(entity);
@@ -81,6 +83,20 @@ public class PedidoService {
         }
 
         repository.deleteById(id);
+    }
+
+    @Transactional
+    public void aprovarPagamentoDoPedido(Long id){
+
+        Pedido pedido = repository.getPedidoByIdWithItens(id);
+
+        if (pedido == null){
+            throw new ResourceNotFoundException("Pedido id: " + id + " não encontrado.");
+        }
+
+        pedido.setStatus(Status.PAGO);
+        repository.updatePedido(Status.PAGO, pedido);
+
     }
 
     private void copyDtoToEntity(PedidoDTO dto, Pedido entity) {
