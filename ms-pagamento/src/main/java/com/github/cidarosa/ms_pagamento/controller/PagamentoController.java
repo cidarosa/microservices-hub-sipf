@@ -3,6 +3,7 @@ package com.github.cidarosa.ms_pagamento.controller;
 import com.github.cidarosa.ms_pagamento.dto.PagamentoDTO;
 import com.github.cidarosa.ms_pagamento.service.PagamentoService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,13 @@ public class PagamentoController {
                                                @RequestBody @Valid PagamentoDTO dto){
         dto = service.updatePagamento(id, dto);
         return ResponseEntity.ok(dto);
+    }
+
+    @PatchMapping("/{id}/confirmar")
+    public void confirmarPagamentoDoPedido(@PathVariable
+                                           @NotNull Long id){
+
+        service.confirmarPagamentoDoPedido(id);
     }
 
     @DeleteMapping("/{id}")

@@ -82,7 +82,7 @@ public class PagamentoService {
     }
 
     @Transactional
-    public void confirmarPagamentoDoPedido(Long id){
+        public void confirmarPagamentoDoPedido(Long id){
 
         Optional<Pagamento> pagamento = repository.findById(id);
         if (pagamento.isEmpty()){
