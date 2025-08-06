@@ -3,6 +3,7 @@ package com.github.cidarosa.ms_pagamento.controller.handlers;
 
 import com.github.cidarosa.ms_pagamento.controller.handlers.dto.CustomErrorDTO;
 import com.github.cidarosa.ms_pagamento.controller.handlers.dto.ValidationErrorDTO;
+import com.github.cidarosa.ms_pagamento.service.exceptions.DatabaseException;
 import com.github.cidarosa.ms_pagamento.service.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -39,15 +40,15 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-//    @ExceptionHandler(DatabaseException.class)
-//    public ResponseEntity<CustomErrorDTO> handleDatabase(DatabaseException e,
-//                                                         HttpServletRequest request) {
-//        HttpStatus status = HttpStatus.BAD_REQUEST;
-//        // ou
-//        // HttpStatus status = HttpStatus.CONFLICT;
-//        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(),
-//                e.getMessage(), request.getRequestURI());
-//        return ResponseEntity.status(status).body(err);
-//    }
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomErrorDTO> handleDatabase(DatabaseException e,
+                                                         HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        // ou
+        // HttpStatus status = HttpStatus.CONFLICT;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(),
+                e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 
 }
