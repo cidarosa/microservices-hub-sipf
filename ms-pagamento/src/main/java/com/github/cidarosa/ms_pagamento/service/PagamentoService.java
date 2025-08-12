@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,6 +91,19 @@ public class PagamentoService {
         pagamento.get().setStatus(Status.CONFIRMADO);
         repository.save(pagamento.get());
         pedidoClient.atualizarPagamentoDoPedido(pagamento.get().getPedidoId());
+    }
+
+    @Transactional
+    public void alterarStatusDoPagamento(Long id){
+
+        Optional<Pagamento> pagamento = repository.findById(id);
+        if (pagamento.isEmpty()){
+            throw new ResourceNotFoundException("Recurso não encontrado. ID: " + id);
+        }
+
+        pagamento.get().setStatus(Status.CONFIRMACAO_PENDENTE);
+        repository.save(pagamento.get());
+
     }
 
     private void copytDtoToEntity(PagamentoDTO dto, Pagamento entity) {
