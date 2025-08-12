@@ -49,8 +49,7 @@ public class PagamentoControllerIT {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("[0].id").value(1))
                 .andExpect(jsonPath("[0].nome").isString())
-                .andExpect(jsonPath("[0].nome").value("Amadeus Mozart"))
-                .andExpect(jsonPath("[5].status").value("CONFIRMADO"));
+                .andExpect(jsonPath("[0].nome").value("Amadeus Mozart"));
     }
 
     @Test

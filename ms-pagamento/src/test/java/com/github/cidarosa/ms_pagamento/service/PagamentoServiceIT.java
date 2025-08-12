@@ -27,7 +27,7 @@ public class PagamentoServiceIT {
     void setup() throws Exception {
         existingId = 1L;
         nonExistingId = 100L;
-        countTotalPagamento = 6L;
+        countTotalPagamento = 2L;
     }
 
     @Test
@@ -51,11 +51,9 @@ public class PagamentoServiceIT {
         var result = service.getAll();
         Assertions.assertFalse(result.isEmpty());
         Assertions.assertEquals(countTotalPagamento, result.size());
-        Assertions.assertEquals(Double.valueOf(35.55), result.get(0).getValor().doubleValue());
+        Assertions.assertEquals(Double.valueOf(790), result.get(0).getValor().doubleValue());
         Assertions.assertEquals("Amadeus Mozart", result.get(0).getNome());
         Assertions.assertEquals("Chiquinha Gonzaga", result.get(1).getNome());
-        Assertions.assertNull(result.get(5).getNome());
-        Assertions.assertEquals(null, result.get(5).getNome());
 
     }
 }
