@@ -3,9 +3,11 @@ package com.github.cidarosa.ms_pedido.controller;
 import com.github.cidarosa.ms_pedido.dto.PedidoDTO;
 import com.github.cidarosa.ms_pedido.dto.StatusDTO;
 import com.github.cidarosa.ms_pedido.entities.Pedido;
+import com.github.cidarosa.ms_pedido.kafka.PedidoProducer;
 import com.github.cidarosa.ms_pedido.service.PedidoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,16 @@ public class PedidoController {
 
     @Autowired
     private PedidoService service;
+
+    @Autowired
+    private PedidoProducer pedidoProducer;
+
+    @PostMapping("/enviar")
+    public ResponseEntity<String> enviarMensagem(@RequestParam String mensagem){
+
+        pedidoProducer.enviarMensagem(mensagem);
+        return ResponseEntity.ok("Mensagem enviada para o Kafka" + mensagem);
+    }
 
     @GetMapping("/port")
     public String getPort(@Value("${local.server.port}") String porta){
